@@ -1,6 +1,7 @@
 const User = require("../models/user.model")
 const bcrypt = require('bcryptjs');
-
+require('dotenv').config()
+const jwt = require('jsonwebtoken')
 
 class UserController {
     async handleRegister(req, res) {
@@ -35,13 +36,23 @@ class UserController {
             if (checkPass) {
                 console.log(checkUser);
                 const { password, ...data } = checkUser.dataValues
-                return res.status(200).json({ msg: "login successfully", data: data })
+                const jwtData = jwt.sign(data, process.env.ACCESS_TOKEN_SCERET)
+                return res.status(200).json({ msg: "login successfully", accessToken: jwtData, data: data })
             } else {
                 return res.status(401).json('wrong password')
             }
 
         } catch (error) {
-            res.status(400).json({msg:"Error"})
+            res.status(400).json({ msg: "Error" })
+        }
+    }
+    async getAllUser(req, res) {
+        try {
+            console.log(req.infor);
+            const data = await User.findAll()
+            res.status(200).json(data)
+        } catch (error) {
+            res.status(400).json("error")
         }
     }
 }
