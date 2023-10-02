@@ -7,6 +7,6 @@ const userRouter = express.Router()
 
 userRouter.post('/register', userController.handleRegister)
 userRouter.post('/login', userController.handleLogin)
-userRouter.get('/', checkAuthentication, checkRoleUser, userController.getAllUser)
+userRouter.get('/', checkAuthentication,checkRoleUser, userController.getAllUser)
 
 module.exports = userRouter

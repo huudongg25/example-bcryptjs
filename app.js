@@ -1,11 +1,12 @@
 const express = require('express')
 const Router = require('./src/router')
 const app = express()
+const cors = require('cors')
 const sequelize = require('./src/config/dbConfig')
 const User = require('./src/models/user.model')
 app.use(express.json())
 app.use(express.urlencoded())
-
+app.use(cors({ credentials: true, origin: "http://localhost:3000", methods: 'GET,HEAD,PUT,PATCH,DELETE,POST' }));
 Router(app)
 
 // User.sync().then(()=>{
